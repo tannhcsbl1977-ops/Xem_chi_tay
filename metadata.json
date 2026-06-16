@@ -1,0 +1,6 @@
+{
+  "name": "Xem Chỉ Tay",
+  "description": "Ứng dụng phân tích chỉ tay kết hợp phong thủy Á - Âu sử dụng trí tuệ nhân tạo Gemini, thực hiện bởi Trần Minh Tân.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
