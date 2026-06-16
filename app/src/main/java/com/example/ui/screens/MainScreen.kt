@@ -287,7 +287,7 @@ fun MainScreen(
                 }
             }
 
-            // Full-Screen Beautiful Result dialog (Paper/Scroll style)
+            // Full-Screen Beautiful Result dialog (Paper/Scroll style conforming to minimalist design guidelines)
             if (showResultDialog) {
                 AlertDialog(
                     onDismissRequest = {
@@ -300,9 +300,11 @@ fun MainScreen(
                                 showResultDialog = false
                                 expandedReading = null
                             },
-                            colors = ButtonDefaults.buttonColors(containerColor = GoldAccent)
+                            colors = ButtonDefaults.buttonColors(containerColor = GoldAccent),
+                            shape = RoundedCornerShape(8.dp),
+                            modifier = Modifier.padding(bottom = 8.dp, end = 8.dp)
                         ) {
-                            Text("Đóng Hồi Khải", color = Color.White)
+                            Text("Đóng Hồi Khải", color = Color.White, fontWeight = FontWeight.Bold, letterSpacing = 0.5.sp)
                         }
                     },
                     title = {
@@ -312,22 +314,24 @@ fun MainScreen(
                             modifier = Modifier.fillMaxWidth()
                         ) {
                             Text(
-                                text = "BÁO CÁO LUẬN GIẢI CHỈ TAY",
+                                text = "LUẬN GIẢI KẾT QUẢ",
                                 fontFamily = FontFamily.Serif,
                                 fontWeight = FontWeight.Bold,
                                 color = CharcoalText,
-                                fontSize = 16.sp
+                                fontSize = 18.sp,
+                                letterSpacing = 1.sp
                             )
                             Icon(
                                 imageVector = Icons.Default.Star,
-                                contentDescription = "Decor",
-                                tint = GoldAccent
+                                contentDescription = "Decor Accent Star",
+                                tint = GoldAccent,
+                                modifier = Modifier.size(20.dp)
                             )
                         }
                     },
                     text = {
-                        Column(modifier = Modifier.fillMaxHeight(0.75f)) {
-                            HorizontalDivider(color = FineBorder, modifier = Modifier.padding(bottom = 8.dp))
+                        Column(modifier = Modifier.fillMaxHeight(0.80f)) {
+                            HorizontalDivider(color = FineBorder, modifier = Modifier.padding(bottom = 12.dp))
                             
                             // If there was an image, display it beautifully
                             if (expandedReading?.imageUriString != null) {
@@ -336,10 +340,10 @@ fun MainScreen(
                                     contentDescription = "Bàn tay đã chụp",
                                     modifier = Modifier
                                         .fillMaxWidth()
-                                        .height(140.dp)
+                                        .height(150.dp)
                                         .padding(bottom = 12.dp)
-                                        .clip(RoundedCornerShape(8.dp))
-                                        .border(0.5.dp, FineBorder, RoundedCornerShape(8.dp)),
+                                        .clip(RoundedCornerShape(12.dp))
+                                        .border(1.dp, FineBorder, RoundedCornerShape(12.dp)),
                                     contentScale = ContentScale.Crop
                                 )
                             } else if (selectedImageUri != null && currentTab == 1) {
@@ -348,10 +352,10 @@ fun MainScreen(
                                     contentDescription = "Bàn tay đang xem",
                                     modifier = Modifier
                                         .fillMaxWidth()
-                                        .height(140.dp)
+                                        .height(150.dp)
                                         .padding(bottom = 12.dp)
-                                        .clip(RoundedCornerShape(8.dp))
-                                        .border(0.5.dp, FineBorder, RoundedCornerShape(8.dp)),
+                                        .clip(RoundedCornerShape(12.dp))
+                                        .border(1.dp, FineBorder, RoundedCornerShape(12.dp)),
                                     contentScale = ContentScale.Crop
                                 )
                             }
@@ -359,9 +363,9 @@ fun MainScreen(
                             LazyColumn(
                                 modifier = Modifier
                                     .weight(1f)
-                                    .background(SandBg)
-                                    .border(1.dp, FineBorder, RoundedCornerShape(8.dp))
-                                    .padding(12.dp)
+                                    .background(PureWhite, RoundedCornerShape(12.dp))
+                                    .border(BorderStroke(1.dp, GoldAccent.copy(alpha = 0.3f)), RoundedCornerShape(12.dp))
+                                    .padding(16.dp)
                             ) {
                                 item {
                                     // Make rich text formatting out of markdown headers gently
@@ -369,22 +373,23 @@ fun MainScreen(
                                         when {
                                             line.startsWith("# ") -> {
                                                 Text(
-                                                    text = line.substring(2),
-                                                    fontSize = 18.sp,
+                                                    text = line.substring(2).uppercase(),
+                                                    fontSize = 16.sp,
                                                     fontFamily = FontFamily.Serif,
                                                     fontWeight = FontWeight.Bold,
                                                     color = GoldAccent,
-                                                    modifier = Modifier.padding(vertical = 8.dp)
+                                                    modifier = Modifier.padding(top = 14.dp, bottom = 6.dp),
+                                                    letterSpacing = 0.5.sp
                                                 )
                                             }
                                             line.startsWith("## ") -> {
                                                 Text(
                                                     text = line.substring(3),
-                                                    fontSize = 15.sp,
+                                                    fontSize = 14.sp,
                                                     fontFamily = FontFamily.Serif,
                                                     fontWeight = FontWeight.Bold,
-                                                    color = SageSecondary,
-                                                    modifier = Modifier.padding(vertical = 6.dp)
+                                                    color = GoldAccent,
+                                                    modifier = Modifier.padding(top = 10.dp, bottom = 4.dp)
                                                 )
                                             }
                                             line.startsWith("### ") -> {
@@ -393,25 +398,27 @@ fun MainScreen(
                                                     fontSize = 13.sp,
                                                     fontWeight = FontWeight.SemiBold,
                                                     color = CharcoalText,
-                                                    modifier = Modifier.padding(vertical = 4.dp)
+                                                    modifier = Modifier.padding(top = 8.dp, bottom = 2.dp)
                                                 )
                                             }
                                             line.startsWith("* ") || line.startsWith("- ") -> {
                                                 Text(
                                                     text = "• " + line.substring(2),
-                                                    fontSize = 12.sp,
+                                                    fontSize = 12.5.sp,
+                                                    fontFamily = FontFamily.SansSerif,
                                                     color = CharcoalText,
                                                     modifier = Modifier.padding(start = 8.dp, bottom = 4.dp),
-                                                    lineHeight = 17.sp
+                                                    lineHeight = 18.sp
                                                 )
                                             }
                                             line.isNotBlank() -> {
                                                 Text(
                                                     text = line,
-                                                    fontSize = 12.sp,
+                                                    fontSize = 12.5.sp,
+                                                    fontFamily = FontFamily.SansSerif,
                                                     color = CharcoalText,
-                                                    modifier = Modifier.padding(bottom = 6.dp),
-                                                    lineHeight = 18.sp
+                                                    modifier = Modifier.padding(bottom = 8.dp),
+                                                    lineHeight = 19.sp
                                                 )
                                             }
                                         }
@@ -421,7 +428,7 @@ fun MainScreen(
                         }
                     },
                     shape = RoundedCornerShape(16.dp),
-                    containerColor = PureWhite
+                    containerColor = CreamBg
                 )
             }
 
